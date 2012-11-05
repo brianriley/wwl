@@ -2,6 +2,7 @@ require 'sinatra'
 require_relative 'validator'
 require_relative 'word_finder'
 
+
 def get_word_tempalte(letters)
   validator = Validator.new
   letters = validator.clean params[:letters]
@@ -10,6 +11,8 @@ def get_word_tempalte(letters)
 end
 
 class Server < Sinatra::Base
+  set :public_folder, File.dirname(__FILE__) + '/static'
+
   get '/' do
     if params[:letters]
       begin
