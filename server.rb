@@ -9,15 +9,17 @@ def get_word_tempalte(letters)
   word_finder.find letters
 end
 
-get '/' do
-  if params[:letters]
-    begin
-      @words = get_word_tempalte params[:letters]
-    rescue ValidationError
-      return erb :error, :layout => (request.xhr? ? false : :layout)
+class Server < Sinatra::Base
+  get '/' do
+    if params[:letters]
+      begin
+        @words = get_word_tempalte params[:letters]
+      rescue ValidationError
+        return erb :error, :layout => (request.xhr? ? false : :layout)
+      end
+    else
+      @words = []
     end
-  else
-    @words = []
+    erb :words, :layout => (request.xhr? ? false : :layout)
   end
-  erb :words, :layout => (request.xhr? ? false : :layout)
 end
